@@ -1,0 +1,19 @@
+{
+  "name": "figme",
+  "version": "0.0.1",
+  "authors": [
+    "Maxi Gimenez <gimenez.maxi@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "polymer": "~1.2.1",
+    "paper-tooltip": "PolymerElements/paper-tooltip#~1.1.0",
+    "iron-image": "PolymerElements/iron-image#~1.0.2",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.7",
+    "iron-input": "PolymerElements/iron-input#~1.0.6",
+    "paper-card": "PolymerElements/paper-card#~1.0.7",
+    "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.5",
+    "clipboard": "~1.5.3",
+    "paper-toast": "PolymerElements/paper-toast#~1.0.0"
+  }
+}

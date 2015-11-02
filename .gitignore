@@ -1,0 +1,4 @@
+dist/*
+node_modules
+src/bower
+.DS_Store

@@ -1,0 +1,72 @@
+<dom-module is="component-growl">
+
+    <style>
+        :host {
+            position: absolute;
+            z-index: 1000;
+            right: 25px;
+            bottom: 25px;
+        }
+        .notification {
+            max-width: 300px;
+            padding: 16px 24px;
+            border-radius: 2px;
+            background-color: #323232;
+            cursor: pointer;
+            /*-webkit-transform: translateY(100%);
+            -moz-transform: translateY(100%);
+            -ms-transform: translateY(100%);
+            -o-transform: translateY(100%);
+            transform: translateY(100%);
+            -webkit-transition-property: margin-bottom transform;
+            -moz-transition-property: margin-bottom transform;
+            transition-property: margin-bottom transform;
+            -webkit-transition-duration: 0.4s;
+            -moz-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            -webkit-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+            -moz-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+            transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);*/
+        }
+        .notification__content {
+            display: block;
+            font-size: 14px;
+            font-size: 0.875rem;
+            color: #FFFFFF;
+            line-height: 20px;
+            font-family: 'Roboto', 'Noto', sans-serif;
+        }
+    </style>
+
+    <template>
+
+        <template is="dom-if" if="{{ isShown }}">
+
+            <div class="notification">
+                <div class="notification__content" on-tap="dismiss">{{ message }}</div>
+            </div>
+
+        </template>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'component-growl',
+            properties: {
+                message: {
+                    type: String,
+                    value: 'Default text'
+                },
+                isShown: {
+                    type: Boolean,
+                    value: true
+                }
+            },
+            dismiss: function () {
+                this.isShown = false;
+            }
+        });
+    </script>
+
+</dom-module>

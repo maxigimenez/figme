@@ -1,0 +1,112 @@
+<dom-module is="figme-list">
+
+    <template>
+
+        <iron-ajax
+            auto
+            id="search"
+            url="http://api.giphy.com/v1/gifs/search"
+            params='{
+                "api_key": "dc6zaTOxFJmzC",
+                "q": "meme"
+            }'
+            handle-as="json"
+            last-response="{{ items }}"></iron-ajax>
+
+        <template is="dom-repeat" items="[[ items.data ]]">
+            <figme-item item="{{ item }}"></figme-item>
+        </template>
+
+        <paper-toast id="copied" text="Copied!"></paper-toast>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'figme-list',
+            properties: {
+                items: {
+                    type: Object,
+                    observer: '_itemsChanged'
+                },
+                query: {
+                    type: String
+                }
+            },
+            ready: function () {
+                this._attachClipboard();
+            },
+            request: function() {
+                this.$.search.params.q = this.query;
+                this.$.search.generateRequest();
+            },
+            clear: function() {
+                this.items = {};
+            },
+            _itemsChanged: function(value) {
+                // if (!value.data) {
+                //     return this._detachScroll();
+                // }
+                // if (value && value.data.length > 0 && !this._scrollEnabled) {
+                //     this._attachScroll();
+                // }
+            },
+            _attachClipboard: function() {
+                new Clipboard('paper-icon-button.clipboard', {
+                    text: function (trigger) {
+                        var item = trigger.parentElement.parentElement.parentElement.item;
+                        return trigger.id === 'code' ? item.markdown : item.images.original.url;
+                    }
+                })
+                .on('success', function() {
+                    this.$.copied.show();
+                }.bind(this));
+            },
+            _attachScroll: function() {
+                var timer;
+                window.addEventListener('scroll', function (event) {
+                    this._scrollEnabled = true;
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        this._scrollListener();
+                    }.bind(this), 150);
+                }.bind(this));
+            },
+            _detachScroll: function() {
+                window.removeEventListener('scroll');
+                this._scrollEnabled = false;
+            },
+            _scrollListener: function() {
+                var items = this.querySelectorAll('figme-item');
+                for ( var i = 0; i < items.length; i++ ) {
+                    var element = items[i];
+                    if ( this._elementInViewport(element) ) {
+                        element._animate();
+                    } else {
+                        element._animate(true);
+                    }
+                }
+            },
+            _elementInViewport: function(el) {
+                var top = el.offsetTop;
+                var left = el.offsetLeft;
+                var width = el.offsetWidth;
+                var height = el.offsetHeight;
+
+                while(el.offsetParent) {
+                    el = el.offsetParent;
+                    top += el.offsetTop;
+                    left += el.offsetLeft;
+                }
+
+                return (
+                    top >= window.pageYOffset &&
+                    left >= window.pageXOffset &&
+                    (top + height) <= (window.pageYOffset + window.innerHeight) &&
+                    (left + width) <= (window.pageXOffset + window.innerWidth)
+                );
+            }
+        });
+    </script>
+
+</dom-module>

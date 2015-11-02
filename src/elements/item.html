@@ -1,0 +1,67 @@
+<dom-module is="figme-item">
+
+    <style>
+        :host {
+            display: flex;
+        }
+
+        paper-card {
+            margin: 0 auto 20px;
+        }
+
+        paper-tooltip {
+            font-family: 'Roboto', 'Noto', sans-serif;
+            --paper-tooltip-background: black;
+        }
+    </style>
+
+    <template>
+
+        <paper-card>
+
+            <iron-image
+                id="image"
+                preload
+                fade
+                sizing="cover"
+                src="{{ item.images.original_still.url }}"
+                width="{{ item.images.original.width }}"
+                height="{{ item.images.original.height }}"></iron-image>
+
+            <div class="card-actions">
+                <paper-icon-button class="clipboard" id="content-paste" icon="content-paste"></paper-icon-button>
+                <paper-icon-button class="clipboard" id="code" icon="code"></paper-icon-button>
+                <paper-icon-button id="file-download" icon="file-download" on-tap="download"></paper-icon-button>
+
+                <paper-tooltip for="content-paste" offset="0">Copy to clipboard</paper-tooltip>
+                <paper-tooltip for="code" offset="0">Copy as Markdown code</paper-tooltip>
+                <paper-tooltip for="file-download" offset="0">Download image</paper-tooltip>
+            </div>
+
+        </paper-card>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'figme-item',
+            properties: {
+                item: Object
+            },
+            ready: function() {
+                this.item.markdown = '!['+this.item.source_tld+']('+this.item.images.original.url+')';
+            },
+            download: function() {
+                var link = document.createElement('a');
+                link.download = null;
+                link.href = this.item.images.original.url;
+                link.click();
+            },
+            _animate: function(stop) {
+                var image = stop ? this.item.images.original_still.url : this.item.images.original.url;
+                this.$.image.style.backgroundImage = 'url('+image+')';
+            }
+        });
+    </script>
+
+</dom-module>
