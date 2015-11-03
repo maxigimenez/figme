@@ -1,6 +1,6 @@
 # Figme
 
-[Figme](http://maxigimenez.github.io/figme) is a GIF search engine using the [Giphy API](http://giphy.com/).
+[Figme](http://figme.co/) is a GIF search engine using the [Giphy API](http://giphy.com/).
 
 Some cool features:
 
