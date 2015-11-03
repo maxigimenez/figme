@@ -3,8 +3,20 @@
     <style>
         :host {
             float: left;
-            width: 20%;
+            width: 25%;
             margin-bottom: -5px;
+        }
+
+        @media (max-width:960px) {
+            :host {
+                width: 50%;
+            };
+        }
+
+        @media (max-width:500px) {
+            :host {
+                width: 100%;
+            };
         }
 
         paper-tooltip {
@@ -14,17 +26,75 @@
 
         iron-image {
             width: 100%;
-            height: 200px;
+            height: 250px;
         }
 
         .item {
             position: relative;
+            cursor: pointer;
+        }
+
+        /*.item * {
+            pointer-events: none;
+        }*/
+
+        .loading {
+            bottom: 10px;
+            position: absolute;
+            z-index: 1000;
+            margin-left: 10%;
+            width: 80%;
+            height: 10px;
+            border-radius: 50px;
+            background: #47A6F7;
+            -webkit-animation: right 0.3s infinite ease-in-out;
+            -moz-animation: right 0.3s infinite ease-in-out;
+            animation: right 0.3s infinite ease-in-out;
+            display: none;
+        }
+
+        @-webkit-keyframes right {
+          0%   { -webkit-transform: translate(-15px);   }
+          50%  { -webkit-transform: translate(15px);    }
+          100% { -webkit-transform: translate(-15px);   }
+        }
+
+        @-webkit-keyframes left {
+          0%   { -webkit-transform: translate(15px);    }
+          50%  { -webkit-transform: translate(-15px);   }
+          100% { -webkit-transform: translate(15px);    }
+        }
+
+        @-moz-keyframes right {
+          0%   { -moz-transform: translate(-15px);   }
+          50%  { -moz-transform: translate(15px);    }
+          100% { -moz-transform: translate(-15px);   }
+        }
+
+        @-moz-keyframes left {
+          0%   { -moz-transform: translate(15px);    }
+          50%  { -moz-transform: translate(-15px);   }
+          100% { -moz-transform: translate(15px);    }
+        }
+
+        @keyframes right {
+          0%   { transform: translate(-15px);  }
+          50%  { transform: translate(15px);   }
+          100% { transform: translate(-15px);  }
+        }
+
+        @keyframes left {
+          0%   { transform: translate(15px);   }
+          50%  { transform: translate(-15px);  }
+          100% { transform: translate(15px);   }
         }
     </style>
 
     <template>
 
         <div class="item">
+
+            <div class="loading"></div>
 
             <iron-image
                 preload
@@ -51,11 +121,28 @@
             _attachWatchers: function() {
                 var element = this.querySelector('.item');
                 var view = this.querySelector('figme-item-view');
+                var loading = element.querySelector('.loading');
+                var timer;
+
                 element.addEventListener('mouseover', function(event) {
-                    view.show();
+                    if ( view.querySelector('iron-image').loaded ) {
+                        view.show();
+                        return;
+                    }
+                    loading.style.display = 'block';
+                    timer = setInterval(function(){
+                        if ( view.querySelector('iron-image').loaded ) {
+                            loading.style.display = 'none';
+                            view.show();
+                            clearInterval(timer);
+                        }
+                    }, 150);
                 });
+
                 element.addEventListener('mouseout', function(event) {
                     view.hide();
+                    loading.style.display = 'none';
+                    clearInterval(timer);
                 });
             }
         });
