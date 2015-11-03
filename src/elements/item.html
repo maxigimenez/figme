@@ -2,43 +2,39 @@
 
     <style>
         :host {
-            display: flex;
-        }
-
-        paper-card {
-            margin: 0 auto 20px;
+            float: left;
+            width: 20%;
+            margin-bottom: -5px;
         }
 
         paper-tooltip {
             font-family: 'Roboto', 'Noto', sans-serif;
             --paper-tooltip-background: black;
         }
+
+        iron-image {
+            width: 100%;
+            height: 200px;
+        }
+
+        .item {
+            position: relative;
+        }
     </style>
 
     <template>
 
-        <paper-card>
+        <div class="item">
 
             <iron-image
-                id="image"
                 preload
                 fade
                 sizing="cover"
-                src="{{ item.images.original_still.url }}"
-                width="{{ item.images.original.width }}"
-                height="{{ item.images.original.height }}"></iron-image>
+                src="{{ item.images.original_still.url }}"></iron-image>
 
-            <div class="card-actions">
-                <paper-icon-button class="clipboard" id="content-paste" icon="content-paste"></paper-icon-button>
-                <paper-icon-button class="clipboard" id="code" icon="code"></paper-icon-button>
-                <paper-icon-button id="file-download" icon="file-download" on-tap="download"></paper-icon-button>
+            <figme-item-view item="{{ item }}"></figme-item-view>
 
-                <paper-tooltip for="content-paste" offset="0">Copy to clipboard</paper-tooltip>
-                <paper-tooltip for="code" offset="0">Copy as Markdown code</paper-tooltip>
-                <paper-tooltip for="file-download" offset="0">Download image</paper-tooltip>
-            </div>
-
-        </paper-card>
+        </div>
 
     </template>
 
@@ -50,16 +46,17 @@
             },
             ready: function() {
                 this.item.markdown = '!['+this.item.source_tld+']('+this.item.images.original.url+')';
+                this._attachWatchers();
             },
-            download: function() {
-                var link = document.createElement('a');
-                link.download = null;
-                link.href = this.item.images.original.url;
-                link.click();
-            },
-            _animate: function(stop) {
-                var image = stop ? this.item.images.original_still.url : this.item.images.original.url;
-                this.$.image.style.backgroundImage = 'url('+image+')';
+            _attachWatchers: function() {
+                var element = this.querySelector('.item');
+                var view = this.querySelector('figme-item-view');
+                element.addEventListener('mouseover', function(event) {
+                    view.show();
+                });
+                element.addEventListener('mouseout', function(event) {
+                    view.hide();
+                });
             }
         });
     </script>

@@ -1,20 +1,72 @@
 <dom-module is="figme-list">
 
+    <style>
+        .container {
+            float: left;
+            width: 100%;
+        }
+
+        .more {
+            float: left;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .more paper-icon-button {
+            color: #FFF;
+        }
+
+        .stats {
+            max-width: 500px;
+            margin: 0 auto;
+            border-top: 1px solid #89C6F9;
+            padding: 15px 0 0 0;
+            color: #FFF;
+            text-transform: uppercase;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stats span {
+            font-weight: 700;
+        }
+
+        .stats a {
+            font-weight: 300;
+            color: #FFF;
+            text-decoration: none;
+        }
+    </style>
+
     <template>
 
         <iron-ajax
-            auto
             id="search"
             url="http://api.giphy.com/v1/gifs/search"
             params='{
                 "api_key": "dc6zaTOxFJmzC",
-                "q": "meme"
+                "q": null
             }'
             handle-as="json"
             last-response="{{ items }}"></iron-ajax>
 
-        <template is="dom-repeat" items="[[ items.data ]]">
-            <figme-item item="{{ item }}"></figme-item>
+        <template is="dom-if" if="{{ items.data }}">
+            <div class="stats">
+                Total: <span>[[ items.pagination.total_count ]]</span> - <a href="#" on-tap="clear">Clear</a>
+            </div>
+        </template>
+
+        <div class="container">
+            <template is="dom-repeat" items="{{ results }}">
+                <figme-item item="{{ item }}"></figme-item>
+            </template>
+        </div>
+
+        <template is="dom-if" if="{{ ifMore }}">
+            <div class="more">
+                <paper-icon-button icon="hardware:keyboard-arrow-down" on-tap="more"></paper-icon-button>
+            </div>
         </template>
 
         <paper-toast id="copied" text="Copied!"></paper-toast>
@@ -27,29 +79,55 @@
             properties: {
                 items: {
                     type: Object,
-                    observer: '_itemsChanged'
+                    observer: '_itemsHasChanged'
                 },
                 query: {
                     type: String
+                },
+                ifMore: {
+                    type: Boolean,
+                    value: false
+                },
+                offset: {
+                    type: Number,
+                    value: 0
+                },
+                results: {
+                    type: Array,
+                    value: []
                 }
             },
             ready: function () {
                 this._attachClipboard();
             },
-            request: function() {
+            request: function(getMore) {
+                if (!getMore) {
+                    this.results = [];
+                    this.offset = 0;
+                }
+                this.$.search.params.offset = this.offset;
                 this.$.search.params.q = this.query;
                 this.$.search.generateRequest();
             },
-            clear: function() {
+            clear: function(event) {
+                if (event) {
+                    event.preventDefault();
+                }
                 this.items = {};
+                this.offset = 0;
             },
-            _itemsChanged: function(value) {
-                // if (!value.data) {
-                //     return this._detachScroll();
-                // }
-                // if (value && value.data.length > 0 && !this._scrollEnabled) {
-                //     this._attachScroll();
-                // }
+            more: function() {
+                this.offset += 25;
+                this.request(true);
+            },
+            _itemsHasChanged: function(value) {
+                if ( typeof value.data === 'undefined' ) {
+                    this.results = [];
+                    this.ifMore = false;
+                } else {
+                    this.results = this.results.concat(value.data);
+                    this.ifMore = value.pagination.total_count > this.results.length;
+                }
             },
             _attachClipboard: function() {
                 new Clipboard('paper-icon-button.clipboard', {
@@ -61,50 +139,6 @@
                 .on('success', function() {
                     this.$.copied.show();
                 }.bind(this));
-            },
-            _attachScroll: function() {
-                var timer;
-                window.addEventListener('scroll', function (event) {
-                    this._scrollEnabled = true;
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        this._scrollListener();
-                    }.bind(this), 150);
-                }.bind(this));
-            },
-            _detachScroll: function() {
-                window.removeEventListener('scroll');
-                this._scrollEnabled = false;
-            },
-            _scrollListener: function() {
-                var items = this.querySelectorAll('figme-item');
-                for ( var i = 0; i < items.length; i++ ) {
-                    var element = items[i];
-                    if ( this._elementInViewport(element) ) {
-                        element._animate();
-                    } else {
-                        element._animate(true);
-                    }
-                }
-            },
-            _elementInViewport: function(el) {
-                var top = el.offsetTop;
-                var left = el.offsetLeft;
-                var width = el.offsetWidth;
-                var height = el.offsetHeight;
-
-                while(el.offsetParent) {
-                    el = el.offsetParent;
-                    top += el.offsetTop;
-                    left += el.offsetLeft;
-                }
-
-                return (
-                    top >= window.pageYOffset &&
-                    left >= window.pageXOffset &&
-                    (top + height) <= (window.pageYOffset + window.innerHeight) &&
-                    (left + width) <= (window.pageXOffset + window.innerWidth)
-                );
             }
         });
     </script>

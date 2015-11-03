@@ -1,0 +1,71 @@
+<dom-module is="figme-item-view">
+
+    <style>
+        .view {
+            position: absolute;
+            z-index: 1000;
+            top: 0;
+        }
+
+        .view ._actions {
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-top: -5px;
+            color: #fff;
+        }
+
+        paper-tooltip {
+            --paper-tooltip-background: black;
+        }
+    </style>
+
+    <template>
+
+        <div class="view" hidden$="{{ !isShown }}">
+
+            <iron-image
+                preload
+                fade
+                src="{{ item.images.original.url }}"
+                width="{{ item.images.original.width }}"
+                height="{{ item.images.original.height }}"></iron-image>
+
+            <div class="_actions">
+                <paper-icon-button class="clipboard" id="content-paste" icon="content-paste"></paper-icon-button>
+                <paper-icon-button class="clipboard" id="code" icon="code"></paper-icon-button>
+                <paper-icon-button id="file-download" icon="file-download" on-tap="download"></paper-icon-button>
+
+                <paper-tooltip for="content-paste" offset="0">Copy to clipboard</paper-tooltip>
+                <paper-tooltip for="code" offset="0">Copy as Markdown code</paper-tooltip>
+                <paper-tooltip for="file-download" offset="0">Download image</paper-tooltip>
+            </div>
+
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'figme-item-view',
+            properties: {
+                item: Object,
+                isShown: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            show: function() {
+                this.isShown = true;
+            },
+            hide: function() {
+                this.isShown = false;
+            },
+            download: function() {
+                var link = document.createElement('a');
+                link.download = null;
+                link.href = this.item.images.original.url;
+                link.click();
+            }
+        });
+    </script>
+
+</dom-module>
