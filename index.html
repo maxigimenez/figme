@@ -14423,7 +14423,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 
         <div class="view" hidden$="{{ !isShown }}">
 
-            <iron-image preload="" fade="" sizing="contain" src="{{ item.images.original.url }}"></iron-image>
+            <iron-image preload="" fade="" sizing="contain" src="{{ item.images.original.url }}" on-tap="copy"></iron-image>
 
             <div class="_actions">
                 <paper-icon-button class="clipboard" id="content-copy" icon="content-copy"></paper-icon-button>
@@ -14460,6 +14460,9 @@ is separate from validation, and `allowed-pattern` does not affect how the input
                 link.download = null;
                 link.href = this.item.images.original.url;
                 link.click();
+            },
+            copy: function() {
+                this.querySelector('#content-copy').click();
             }
         });
     </script>
