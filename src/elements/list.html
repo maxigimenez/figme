@@ -1,43 +1,6 @@
 <dom-module is="figme-list">
 
-    <style>
-        .container {
-            float: left;
-            width: 100%;
-        }
-
-        .more {
-            float: left;
-            width: 100%;
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .more paper-icon-button {
-            color: #FFF;
-        }
-
-        .stats {
-            max-width: 500px;
-            margin: 0 auto;
-            border-top: 1px solid #89C6F9;
-            padding: 15px 0 0 0;
-            color: #FFF;
-            text-transform: uppercase;
-            font-size: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stats span {
-            font-weight: 700;
-        }
-
-        .stats a {
-            font-weight: 300;
-            color: #FFF;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/list.css">
 
     <template>
 
@@ -46,7 +9,8 @@
             url="http://api.giphy.com/v1/gifs/search"
             params='{
                 "api_key": "dc6zaTOxFJmzC",
-                "q": null
+                "q": null,
+                "limit": 12
             }'
             handle-as="json"
             last-response="{{ items }}"></iron-ajax>
@@ -55,10 +19,11 @@
             <div class="stats">
                 Total: <span>[[ items.pagination.total_count ]]</span> - <a href="#" on-tap="clear">Clear</a>
             </div>
+            <figme-colors></figme-colors>
         </template>
 
         <div class="container">
-            <template is="dom-repeat" items="{{ results }}">
+            <template is="dom-repeat" items="{{ results }}" filter="{{ filterColor(color) }}">
                 <figme-item item="{{ item }}"></figme-item>
             </template>
         </div>
@@ -73,91 +38,6 @@
 
     </template>
 
-    <script>
-        Polymer({
-            is: 'figme-list',
-            properties: {
-                items: {
-                    type: Object,
-                    observer: '_itemsHasChanged'
-                },
-                query: {
-                    type: String
-                },
-                ifMore: {
-                    type: Boolean,
-                    value: false
-                },
-                offset: {
-                    type: Number,
-                    value: 0
-                },
-                results: {
-                    type: Array,
-                    value: []
-                }
-            },
-            ready: function () {
-                this._attachClipboard();
-            },
-            request: function(getMore) {
-                if (!getMore) {
-                    this.results = [];
-                    this.offset = 0;
-                }
-                this.$.search.params.offset = this.offset;
-                this.$.search.params.q = this.query;
-                this.$.search.generateRequest();
-                this._appendQueryToURL();
-            },
-            clear: function(event) {
-                if (event) {
-                    event.preventDefault();
-                }
-                this.items = {};
-                this.offset = 0;
-                this._removeQueryFromURL();
-            },
-            more: function() {
-                this.offset += 25;
-                this.request(true);
-            },
-            _itemsHasChanged: function(value) {
-                if ( typeof value.data === 'undefined' ) {
-                    this.results = [];
-                    this.ifMore = false;
-                } else {
-                    this.results = this.results.concat(value.data);
-                    this.ifMore = value.pagination.total_count > this.results.length;
-                }
-            },
-            _attachClipboard: function() {
-                new Clipboard('paper-icon-button.clipboard', {
-                    text: function (trigger) {
-                        var item = trigger.parentElement.parentElement.parentElement.item;
-                        return trigger.id === 'code' ? item.markdown : item.images.original.url;
-                    }
-                })
-                .on('success', function() {
-                    this.$.copied.show();
-                }.bind(this));
-            },
-            _appendQueryToURL: function() {
-                var queryHash = '/search/' + encodeURIComponent(this.query);
-                window.location.hash = queryHash;
-            },
-            _removeQueryFromURL: function() {
-                window.location.hash = '/';
-            },
-            _detectQueryOnURL: function() {
-                var hash = window.location.hash.split('/');
-                var hasQuery = hash && hash[1] === 'search' && hash[2] !== '';
-                return !!hasQuery;
-            },
-            _getQueryFromURL: function() {
-                return decodeURIComponent(window.location.hash.split('/')[2]);
-            }
-        });
-    </script>
+    <script src="../scripts/list.js"></script>
 
 </dom-module>

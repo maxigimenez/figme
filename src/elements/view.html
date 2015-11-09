@@ -1,28 +1,6 @@
 <dom-module is="figme-item-view">
 
-    <style>
-        .view {
-            position: absolute;
-            z-index: 1000;
-            top: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-
-        .view ._actions {
-            margin-top: -5px;
-            color: #fff;
-        }
-
-        .view iron-image {
-            width: 100%;
-            height: 250px;
-        }
-
-        paper-tooltip {
-            --paper-tooltip-background: black;
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/view.css">
 
     <template>
 
@@ -40,41 +18,15 @@
                 <paper-icon-button class="clipboard" id="code" icon="code"></paper-icon-button>
                 <paper-icon-button id="file-download" icon="file-download" on-tap="download"></paper-icon-button>
 
-                <paper-tooltip for="content-copy" offset="0">Copy to clipboard</paper-tooltip>
-                <paper-tooltip for="code" offset="0">Copy as Markdown code</paper-tooltip>
-                <paper-tooltip for="file-download" offset="0">Download image</paper-tooltip>
+                <paper-tooltip for="content-copy" position="right">Copy to clipboard</paper-tooltip>
+                <paper-tooltip for="code" position="right">Copy as Markdown code</paper-tooltip>
+                <paper-tooltip for="file-download" position="right">Download image</paper-tooltip>
             </div>
 
         </div>
 
     </template>
 
-    <script>
-        Polymer({
-            is: 'figme-item-view',
-            properties: {
-                item: Object,
-                isShown: {
-                    type: Boolean,
-                    value: false
-                }
-            },
-            show: function() {
-                this.isShown = true;
-            },
-            hide: function() {
-                this.isShown = false;
-            },
-            download: function() {
-                var link = document.createElement('a');
-                link.download = null;
-                link.href = this.item.images.original.url;
-                link.click();
-            },
-            copy: function() {
-                this.querySelector('#content-copy').click();
-            }
-        });
-    </script>
+    <script src="../scripts/view.js"></script>
 
 </dom-module>

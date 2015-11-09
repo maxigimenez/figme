@@ -1,0 +1,21 @@
+<dom-module is="figme-colors">
+
+    <link rel="stylesheet" href="../styles/colors.css">
+
+    <template>
+
+        <template is="dom-repeat"
+            items="{{ items }}">
+
+            <div class="box"
+                style$="[[_computeColor(item)]]"
+                on-tap="filter"
+                data-item="{{ item }}"></div>
+
+        </template>
+
+    </template>
+
+    <script src="../scripts/colors.js"></script>
+
+</dom-module>

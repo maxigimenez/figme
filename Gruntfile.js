@@ -33,7 +33,8 @@ module.exports = function(grunt){
         vulcanize: {
             default: {
                 options: {
-                    inlineScripts: true
+                    inlineScripts: true,
+                    inlineCss: true
                 },
                 files: {
                     'dist/index.html': 'src/index.html'
