@@ -67,7 +67,8 @@
                 is="iron-input"
                 bind-value="{{ query }}"
                 placeholder="Search for a gif ..."
-                autocomplete="off" />
+                autocomplete="off"
+                autofocus />
 
             <p><a href="http://giphy.com/" target="_blank" class="giphy"></a></p>
 
@@ -106,6 +107,11 @@
                         list.clear();
                     }
                 }.bind(this));
+
+                if ( list._detectQueryOnURL() ) {
+                    this.query = list._getQueryFromURL();
+                    list.request();
+                }
             }
         });
     </script>
