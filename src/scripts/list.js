@@ -79,6 +79,7 @@ Polymer({
         new Clipboard('paper-icon-button.clipboard', {
             text: function (trigger) {
                 var item = trigger.parentElement.parentElement.parentElement.item;
+                ga('send', 'event', 'Copy', (trigger.id === 'code' ? 'Markdown' : 'Content'), item.id);
                 return trigger.id === 'code' ? item.markdown : item.images.original.url;
             }
         })

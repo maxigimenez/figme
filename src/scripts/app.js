@@ -14,6 +14,7 @@ Polymer({
             var code = e.keyCode || e.which;
             switch(code) {
                 case 13:
+                    ga('send', 'event', 'Search', 'Request', this.query);
                     list.removeColorFilter();
                     list.request();
                     break;
@@ -22,6 +23,7 @@ Polymer({
 
         search.addEventListener('search', function (e) {
             if ( e.target.value === '' ) {
+                ga('send', 'event', 'Search', 'Clear', '');
                 list.removeColorFilter();
                 list.clear();
             }
@@ -30,6 +32,9 @@ Polymer({
         if ( URIHash.detect('search') ) {
             this.query = URIHash.getFromIndex(2);
             list.request();
+            setTimeout(function(){
+                ga('send', 'event', 'Search', 'RequestFromURL', this.query);
+            }.bind(this), 500);
         }
     }
 });
