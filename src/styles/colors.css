@@ -12,7 +12,3 @@ figme-colors {
     height: 20px;
     cursor: pointer;
 }
-
-.box.selected {
-    box-shadow: 0px -3px 0px #31A2FB inset;
-}

@@ -39,13 +39,11 @@ Polymer({
         this._appendQueryToURL();
     },
     clear: function(event) {
-        if (event) {
-            event.preventDefault();
-        }
+        if (event) { event.preventDefault(); }
         this.items = {};
         this.offset = 0;
         this._removeQueryFromURL();
-        document.querySelector('figme-colors').flush();
+        this.removeColorFilter();
     },
     more: function() {
         this.offset += 12;
@@ -56,6 +54,17 @@ Polymer({
             if (!value) return true;
             return item.color && item.color.indexOf(value) > -1;
         };
+    },
+    removeColorFilter: function(event) {
+        if (event) {
+            event.preventDefault();
+        } else {
+            var colorElement = document.querySelector('figme-colors');
+            if (colorElement) {
+                colorElement.flush();
+            }
+        }
+        this.color = '';
     },
     _itemsHasChanged: function(value) {
         if ( typeof value.data === 'undefined' ) {

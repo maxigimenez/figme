@@ -16,21 +16,10 @@ Polymer({
         this.set('items', []);
     },
     filter: function(e) {
-        var boxes = document.querySelectorAll('.box');
-        for ( var i = 0; i < boxes.length; i++ ) {
-            Polymer.dom(boxes[i]).setAttribute('class', 'box figme-colors');
-        }
-
         var list = document.querySelector('figme-list');
-        var newVal = '';
-
         if (list.color !== e.target.dataItem) {
-            newVal = e.target.dataItem;
-            Polymer.dom(e.target).setAttribute('class', 'box selected figme-colors');
+            list.set('color', e.target.dataItem);
         }
-
-        this.updateStyles();
-        list.set('color', newVal);
     },
     _computeColor: function(color) {
         return 'background-color: ' + color;

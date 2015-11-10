@@ -14,6 +14,7 @@ Polymer({
             var code = e.keyCode || e.which;
             switch(code) {
                 case 13:
+                    list.removeColorFilter();
                     list.request();
                     break;
             }
@@ -21,6 +22,7 @@ Polymer({
 
         search.addEventListener('search', function (e) {
             if ( e.target.value === '' ) {
+                list.removeColorFilter();
                 list.clear();
             }
         }.bind(this));

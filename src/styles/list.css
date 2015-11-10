@@ -35,3 +35,7 @@
     color: #FFF;
     text-decoration: none;
 }
+
+.stats span.filter {
+    float: right;
+}
