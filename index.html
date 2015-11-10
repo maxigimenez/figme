@@ -1,6 +1,19 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Figme | Search gifs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Figme is a gif search engine with the ability of copy quickly to the clipboard the URL and a text with markdown format, also recognize the main color of the gif to be used as filter.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gmaxi_">
+    <meta name="twitter:title" content="Figme | Search gifs using Giphy API">
+    <meta name="twitter:description" content="Figme is a search engine with the ability of recognize the main color of the gif to get what you are looking for.">
+    <meta name="twitter:creator" content="@gmaxi_">
+    <meta name="twitter:image" content="/statics/images/screen.png">
+    <meta property="og:title" content="Figme | Search gifs using Giphy API">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://figme.co/">
+    <meta property="og:image" content="/statics/images/screen.png">
+    <meta property="og:description" content="Figme is a gif search engine with the ability of copy quickly to the clipboard the URL and a text with markdown format, also recognize the main color of the gif to be used as filter.">
+    <meta property="og:site_name" content="Figme.co">
 
     <script>/**
  * @license
@@ -14190,7 +14203,7 @@ p {
     <template>
 
         <iron-ajax id="search" url="http://api.giphy.com/v1/gifs/search" params="{
-                &quot;api_key&quot;: &quot;dc6zaTOxFJmzC&quot;,
+                &quot;api_key&quot;: &quot;PRzg5f1DktmCY&quot;,
                 &quot;q&quot;: null,
                 &quot;limit&quot;: 12
             }" handle-as="json" last-response="{{ items }}"></iron-ajax>
@@ -14534,11 +14547,13 @@ iron-image {
     height: 250px;
 }
 
-paper-tooltip {
-    --paper-tooltip-background: #47A6F7;
-}
-
 </style>
+
+    <style>
+        paper-tooltip {
+            --paper-tooltip-background: #47A6F7;
+        }
+    </style>
 
     <template>
 
