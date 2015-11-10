@@ -36,13 +36,13 @@ Polymer({
         this.$.search.params.offset = this.offset;
         this.$.search.params.q = this.query;
         this.$.search.generateRequest();
-        this._appendQueryToURL();
+        URIHash.set('search', this.query);
     },
     clear: function(event) {
         if (event) { event.preventDefault(); }
         this.items = {};
         this.offset = 0;
-        this._removeQueryFromURL();
+        URIHash.flush();
         this.removeColorFilter();
     },
     more: function() {
@@ -85,20 +85,5 @@ Polymer({
         .on('success', function() {
             this.$.copied.show();
         }.bind(this));
-    },
-    _appendQueryToURL: function() {
-        var queryHash = '/search/' + encodeURIComponent(this.query);
-        window.location.hash = queryHash;
-    },
-    _removeQueryFromURL: function() {
-        window.location.hash = '/';
-    },
-    _detectQueryOnURL: function() {
-        var hash = window.location.hash.split('/');
-        var hasQuery = hash && hash[1] === 'search' && hash[2] !== '';
-        return !!hasQuery;
-    },
-    _getQueryFromURL: function() {
-        return decodeURIComponent(window.location.hash.split('/')[2]);
     }
 });

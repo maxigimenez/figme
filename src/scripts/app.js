@@ -27,8 +27,8 @@ Polymer({
             }
         }.bind(this));
 
-        if ( list._detectQueryOnURL() ) {
-            this.query = list._getQueryFromURL();
+        if ( URIHash.detect('search') ) {
+            this.query = URIHash.getFromIndex(2);
             list.request();
         }
     }
