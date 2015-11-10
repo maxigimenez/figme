@@ -13,7 +13,6 @@ Polymer({
     },
     hide: function() {
         this.isShown = false;
-        ga('send', 'event', 'Preview', 'hide', this.item.id);
     },
     download: function() {
         var link = document.createElement('a');
