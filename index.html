@@ -14171,6 +14171,7 @@ p span.links a {
             var code = e.keyCode || e.which;
             switch(code) {
                 case 13:
+                    ga('send', 'event', 'Search', 'Request', this.query);
                     list.removeColorFilter();
                     list.request();
                     break;
@@ -14179,6 +14180,7 @@ p span.links a {
 
         search.addEventListener('search', function (e) {
             if ( e.target.value === '' ) {
+                ga('send', 'event', 'Search', 'Clear', '');
                 list.removeColorFilter();
                 list.clear();
             }
@@ -14187,6 +14189,9 @@ p span.links a {
         if ( URIHash.detect('search') ) {
             this.query = URIHash.getFromIndex(2);
             list.request();
+            setTimeout(function(){
+                ga('send', 'event', 'Search', 'RequestFromURL', this.query);
+            }.bind(this), 500);
         }
     }
 });
@@ -14370,6 +14375,7 @@ p span.links a {
         new Clipboard('paper-icon-button.clipboard', {
             text: function (trigger) {
                 var item = trigger.parentElement.parentElement.parentElement.item;
+                ga('send', 'event', 'Copy', (trigger.id === 'code' ? 'Markdown' : 'Content'), item.id);
                 return trigger.id === 'code' ? item.markdown : item.images.original.url;
             }
         })
@@ -14611,6 +14617,7 @@ iron-image {
     },
     show: function() {
         this.isShown = true;
+        ga('send', 'event', 'Preview', 'show', this.item.id);
     },
     hide: function() {
         this.isShown = false;
@@ -14620,6 +14627,7 @@ iron-image {
         link.download = null;
         link.href = this.item.images.original.url;
         link.click();
+        ga('send', 'event', 'Copy', 'Download', this.item.id);
     },
     copy: function() {
         this.querySelector('#content-copy').click();
