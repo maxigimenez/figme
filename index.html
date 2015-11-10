@@ -14118,6 +14118,7 @@ p {
             var code = e.keyCode || e.which;
             switch(code) {
                 case 13:
+                    list.removeColorFilter();
                     list.request();
                     break;
             }
@@ -14125,6 +14126,7 @@ p {
 
         search.addEventListener('search', function (e) {
             if ( e.target.value === '' ) {
+                list.removeColorFilter();
                 list.clear();
             }
         }.bind(this));
@@ -14179,6 +14181,10 @@ p {
     text-decoration: none;
 }
 
+.stats span.filter {
+    float: right;
+}
+
 </style>
 
     <template>
@@ -14190,22 +14196,40 @@ p {
             }" handle-as="json" last-response="{{ items }}"></iron-ajax>
 
         <template is="dom-if" if="{{ items.data }}">
+
             <div class="stats">
-                Total: <span>[[ items.pagination.total_count ]]</span> - <a href="#" on-tap="clear">Clear</a>
+
+                Total: <span>[[ items.pagination.total_count ]]</span>
+                - <a href="#" on-tap="clear">Clear</a>
+
+                <template is="dom-if" if="{{ color }}">
+                    <span class="filter"><a href="#" on-tap="removeColorFilter">Remove color filter</a></span>
+                </template>
+
             </div>
+
             <figme-colors></figme-colors>
+
         </template>
 
         <div class="container">
+
             <template is="dom-repeat" items="{{ results }}" filter="{{ filterColor(color) }}">
+
                 <figme-item item="{{ item }}"></figme-item>
+
             </template>
+
         </div>
 
         <template is="dom-if" if="{{ ifMore }}">
+
             <div class="more">
+
                 <paper-icon-button icon="hardware:keyboard-arrow-down" on-tap="more"></paper-icon-button>
+
             </div>
+
         </template>
 
         <paper-toast id="copied" text="Copied!"></paper-toast>
@@ -14253,13 +14277,11 @@ p {
         this._appendQueryToURL();
     },
     clear: function(event) {
-        if (event) {
-            event.preventDefault();
-        }
+        if (event) { event.preventDefault(); }
         this.items = {};
         this.offset = 0;
         this._removeQueryFromURL();
-        document.querySelector('figme-colors').flush();
+        this.removeColorFilter();
     },
     more: function() {
         this.offset += 12;
@@ -14270,6 +14292,17 @@ p {
             if (!value) return true;
             return item.color && item.color.indexOf(value) > -1;
         };
+    },
+    removeColorFilter: function(event) {
+        if (event) {
+            event.preventDefault();
+        } else {
+            var colorElement = document.querySelector('figme-colors');
+            if (colorElement) {
+                colorElement.flush();
+            }
+        }
+        this.color = '';
     },
     _itemsHasChanged: function(value) {
         if ( typeof value.data === 'undefined' ) {
@@ -14573,10 +14606,6 @@ figme-colors {
     cursor: pointer;
 }
 
-.box.selected {
-    box-shadow: 0px -3px 0px #31A2FB inset;
-}
-
 </style>
 
     <template>
@@ -14607,21 +14636,10 @@ figme-colors {
         this.set('items', []);
     },
     filter: function(e) {
-        var boxes = document.querySelectorAll('.box');
-        for ( var i = 0; i < boxes.length; i++ ) {
-            Polymer.dom(boxes[i]).setAttribute('class', 'box figme-colors');
-        }
-
         var list = document.querySelector('figme-list');
-        var newVal = '';
-
         if (list.color !== e.target.dataItem) {
-            newVal = e.target.dataItem;
-            Polymer.dom(e.target).setAttribute('class', 'box selected figme-colors');
+            list.set('color', e.target.dataItem);
         }
-
-        this.updateStyles();
-        list.set('color', newVal);
     },
     _computeColor: function(color) {
         return 'background-color: ' + color;
