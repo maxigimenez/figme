@@ -12,7 +12,7 @@ Some cool features:
 
 ## API Key
 
-**Please replace the api key from this repository to the key located [here](https://github.com/giphy/GiphyAPI).**
+Please replace the api key from this repository to the key located [here](https://github.com/giphy/GiphyAPI#public-beta-key).
 
 ## Writed with:
 
