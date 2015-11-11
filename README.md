@@ -14,10 +14,11 @@ Some cool features:
 
 Please replace the api key from this repository to the key located [here](https://github.com/giphy/GiphyAPI#public-beta-key).
 
-## Writed with:
+## Written with:
 
 - [Polymer](https://www.polymer-project.org/1.0/)
 - [Color Thief](https://github.com/lokesh/color-thief/)
+- [Clipboard](https://github.com/zenorocha/clipboard.js)
 
 ## Nice to have
 
