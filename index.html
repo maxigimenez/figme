@@ -1,25 +1,25 @@
 <!DOCTYPE html><html itemscope="" itemtype="http://schema.org/Article"><head><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Figme | Search gifs</title>
+    <title>Figme | GIFs search engine using Giphy API</title>
     <meta name="description" content="Figme is a gif search engine with the ability of copy quickly to the clipboard the URL and a text with markdown format, also recognize the main color of the gif to be used as filter.">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@gmaxi_">
-    <meta name="twitter:title" content="Figme | Search gifs using Giphy API">
+    <meta name="twitter:title" content="Figme | GIFs search engine using Giphy API">
     <meta name="twitter:description" content="Figme is a search engine with the ability of recognize the main color of the gif to get what you are looking for.">
     <meta name="twitter:creator" content="@gmaxi_">
     <meta name="twitter:image" content="http://www.figme.co/statics/images/screen.jpg">
 
-    <meta property="og:title" content="Figme | Search gifs using Giphy API">
+    <meta property="og:title" content="Figme | GIFs search engine using Giphy API">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://www.figme.co/">
+    <meta property="og:url" content="http://figme.co/">
     <meta property="og:image" content="http://www.figme.co/statics/images/screen.jpg">
     <meta property="og:description" content="Figme is a GIFs search engine.">
     <meta property="og:site_name" content="Figme">
     <meta property="og:image:width" content="640">
     <meta property="og:image:height" content="355">
 
-    <meta itemprop="name" content="Figme | Search gifs using Giphy API">
+    <meta itemprop="name" content="Figme | GIFs search engine using Giphy API">
     <meta itemprop="description" content="Figme is a search engine with the ability of recognize the main color of the gif to get what you are looking for.">
     <meta itemprop="image" content="http://www.figme.co/statics/images/screen.jpg">
 
@@ -14068,84 +14068,83 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 </iron-iconset-svg>
 <dom-module is="figme-app">
 
-    <style>
-.search-container {
-    max-width: 500px;
-    margin: 30px auto;
-}
-
-input {
-    display: block;
-    border: 0;
-    outline: 0;
-    border-radius: 2px;
-    box-shadow: 0px 2px 1px rgba(0,0,0,.1);
-    width: 100%;
-    color: #000;
-    padding: 20px;
-    font-size: 20px;
-}
-
-input::-webkit-search-cancel-button {
-    position: relative;
-    -webkit-appearance: none;
-    cursor: pointer;
-}
-
-input::-webkit-search-cancel-button:before {
-    position: absolute;
-    top: -13px;
-    right: 0px;
-    content: "✖";
-    color: #bbb;
-}
-
-::-webkit-input-placeholder {
-    color: #bbb;
-}
-
-::-moz-placeholder {
-    color: #bbb;
-}
-
-p {
-    margin: 12px 0;
-    color: #FFF;
-    font-family: 'Roboto', 'Noto', sans-serif;
-    font-size: 14px;
-    width: 100%;
-    height: 15px;
-}
-
-p span.links {
-    float: left;
-    margin-top: 3px;
-}
-
-p span.links a {
-    color: #FFF;
-    text-decoration: none;
-}
-
-.giphy {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAAaCAMAAADFcOOIAAAArlBMVEX/////////////////Zmb/////////Zmb/////////Zmb///////////////////////////////8AzP8A/5n/Zmb/////////Zmb///8A2uP///9Kgv8AzP+ZM///Zmb//5n///83lf//242x/5n/0In///8A4tNBi/9t/5n///9wJqFoIq50J59bHZj///9gIJcAzP8A/5lMGH9fH5+ZM///Zmb/2Yz//5n///88Cs80AAAAMXRSTlMACBAYICAoMDA4QEBIUFhgaHB4gICAgJCgoLCwusDAwMDAyMzQ0NDg4ODg4eTn7/D3vV0NOgAAAqVJREFUeNrtlety0zAQRj/LKHW6VmQZumkI0JqLS0NpoUDA7/9ieKU4SuvcZphpCfT8iK6e2SOtNnhiJ+crvDs7O8Kh8muFn/P5MQ6Vy8v35x0f5vPTk0NVub19gY7jecvJvyJyenyEiJ02wpT8oGoBUC2Ycracjj2M5ddhOTF+DBHhDB1Z3XRMFMDSAdBEpt00Ad0G8isagL6Rnnl0kayNI5r0RYSqL4JpWFh0pnhwkWcnLZ+/fMKCcB83lfjU/RsJ2L6IWlyE8Z+rBxWJXH+7RsD6OAgA1eJxR2RCROHA+yLBYKZn2xIrty0DQBfMoxSjHIDVQGaVX8phw47Ut5lvKH5KSkaJNZtErr5fIeDjzOBRuCfCaJFIq55I9+lsa2JZS1RwqrnIhq5UhhMM2ADW+SXKwJZyZqXZtEMtzYgtIFuISh7knMJwuknkzY83CNyEOGwVyPoidRSpZYsPHd0r355Y/jyZCoe2LU3KGQyXMiVLAhMwZNKs0eKboY/bWoA4S1yhmbBDJMbLTYDuiyjXRJEIBFkSDLaJpDwMkYws3Ail5UHGCtZJaolI6niguWiHafDx221pC7bixgX+UCTi1oqganZULImWyySIGCtHzKkzowJLEcFijYijvCwTSGLtKzLZJVKr9SLavxIFbHsjwwSFS3xqQbFzyEseYplaRsvq+tQa8Aggxj4idczxaoNIrMqOWiZRBCHtNhOilfMmcqUCitYhZU6wfOwEVRbJymMv2KC7Eaa9RcZdpFB1T2RWtUws0PtD3FMkz+DR1pdfYGAVYHIAXfnNgNTSavkdrpRfSKneS0SHujMZ1+sfu7BL5AHYLQLXrKIPVkSSK2JxwCKgqglMCQcsIihy7Ejhr+fi4uXzO7z9+AqHyNc+r59E/h9+Ax+ByZSH/dyeAAAAAElFTkSuQmCC");
-    background-repeat: no-repeat;
-    width: 200px;
-    height: 26px;
-    float: right;
-}
-
-</style>
-
     <template>
 
-        <div class="search-container">
+        <style>
+            .search-box {
+                max-width: 500px;
+                margin: 30px auto;
+            }
+
+            input {
+                display: block;
+                border: 0;
+                outline: 0;
+                border-radius: 2px;
+                box-shadow: 0px 2px 1px rgba(0,0,0,.1);
+                width: 100%;
+                color: #000;
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            input::-webkit-search-cancel-button {
+                position: relative;
+                -webkit-appearance: none;
+                cursor: pointer;
+            }
+
+            input::-webkit-search-cancel-button:before {
+                position: absolute;
+                top: -13px;
+                right: 0px;
+                content: "✖";
+                color: #bbb;
+            }
+
+            ::-webkit-input-placeholder {
+                color: #bbb;
+            }
+
+            ::-moz-placeholder {
+                color: #bbb;
+            }
+
+            p {
+                margin: 12px 0;
+                color: #FFF;
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 14px;
+                width: 100%;
+                height: 15px;
+            }
+
+            p span.links {
+                float: left;
+                margin-top: 3px;
+            }
+
+            p span.links a {
+                color: #FFF;
+                text-decoration: none;
+            }
+
+            .giphy {
+                background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAAaCAMAAADFcOOIAAAArlBMVEX/////////////////Zmb/////////Zmb/////////Zmb///////////////////////////////8AzP8A/5n/Zmb/////////Zmb///8A2uP///9Kgv8AzP+ZM///Zmb//5n///83lf//242x/5n/0In///8A4tNBi/9t/5n///9wJqFoIq50J59bHZj///9gIJcAzP8A/5lMGH9fH5+ZM///Zmb/2Yz//5n///88Cs80AAAAMXRSTlMACBAYICAoMDA4QEBIUFhgaHB4gICAgJCgoLCwusDAwMDAyMzQ0NDg4ODg4eTn7/D3vV0NOgAAAqVJREFUeNrtlety0zAQRj/LKHW6VmQZumkI0JqLS0NpoUDA7/9ieKU4SuvcZphpCfT8iK6e2SOtNnhiJ+crvDs7O8Kh8muFn/P5MQ6Vy8v35x0f5vPTk0NVub19gY7jecvJvyJyenyEiJ02wpT8oGoBUC2Ycracjj2M5ddhOTF+DBHhDB1Z3XRMFMDSAdBEpt00Ad0G8isagL6Rnnl0kayNI5r0RYSqL4JpWFh0pnhwkWcnLZ+/fMKCcB83lfjU/RsJ2L6IWlyE8Z+rBxWJXH+7RsD6OAgA1eJxR2RCROHA+yLBYKZn2xIrty0DQBfMoxSjHIDVQGaVX8phw47Ut5lvKH5KSkaJNZtErr5fIeDjzOBRuCfCaJFIq55I9+lsa2JZS1RwqrnIhq5UhhMM2ADW+SXKwJZyZqXZtEMtzYgtIFuISh7knMJwuknkzY83CNyEOGwVyPoidRSpZYsPHd0r355Y/jyZCoe2LU3KGQyXMiVLAhMwZNKs0eKboY/bWoA4S1yhmbBDJMbLTYDuiyjXRJEIBFkSDLaJpDwMkYws3Ail5UHGCtZJaolI6niguWiHafDx221pC7bixgX+UCTi1oqganZULImWyySIGCtHzKkzowJLEcFijYijvCwTSGLtKzLZJVKr9SLavxIFbHsjwwSFS3xqQbFzyEseYplaRsvq+tQa8Aggxj4idczxaoNIrMqOWiZRBCHtNhOilfMmcqUCitYhZU6wfOwEVRbJymMv2KC7Eaa9RcZdpFB1T2RWtUws0PtD3FMkz+DR1pdfYGAVYHIAXfnNgNTSavkdrpRfSKneS0SHujMZ1+sfu7BL5AHYLQLXrKIPVkSSK2JxwCKgqglMCQcsIihy7Ejhr+fi4uXzO7z9+AqHyNc+r59E/h9+Ax+ByZSH/dyeAAAAAElFTkSuQmCC");
+                background-repeat: no-repeat;
+                width: 200px;
+                height: 26px;
+                float: right;
+            }
+        </style>
+
+        <div class="search-box">
 
             <input id="search" type="search" is="iron-input" bind-value="{{ query }}" placeholder="Search for a gif ..." autocomplete="off" autofocus="">
 
             <p>
                 <span class="links">
-                    <iron-icon icon="icons:code"></iron-icon> with <iron-icon icon="icons:favorite"></iron-icon> by
+                    <a href="https://github.com/maxigimenez/figme" target="_blank"><iron-icon icon="icons:code"></iron-icon></a> with <iron-icon icon="icons:favorite"></iron-icon> by
                     <a href="http://maxigimenez.github.io/" target="_blank">@maxigimenez</a>
                 </span>
                 <a href="http://giphy.com/" target="_blank" class="giphy"></a>
@@ -14157,97 +14156,97 @@ p span.links a {
 
     </template>
 
-    <script>Polymer({
-    is: 'figme-app',
-    properties: {
-        query: {
-            type: String,
-            value: ''
-        }
-    },
-    ready: function() {
-        var search = this.$.search;
-        var list = this.$.list;
+    <script>
+        Polymer({
+            is: 'figme-app',
+            properties: {
+                query: {
+                    type: String,
+                    value: ''
+                }
+            },
+            ready: function() {
+                var search = this.$.search;
+                var list = this.$.list;
 
-        search.addEventListener('keypress', function (e) {
-            var code = e.keyCode || e.which;
-            switch(code) {
-                case 13:
-                    ga('send', 'event', 'Search', 'Request', this.query);
-                    list.removeColorFilter();
+                search.addEventListener('keypress', function (e) {
+                    var code = e.keyCode || e.which;
+                    switch(code) {
+                        case 13:
+                            ga('send', 'event', 'Search', 'Request', this.query);
+                            list.removeColorFilter();
+                            list.request();
+                            break;
+                    }
+                }.bind(this));
+
+                search.addEventListener('search', function (e) {
+                    if ( e.target.value === '' ) {
+                        ga('send', 'event', 'Search', 'Clear', '');
+                        list.removeColorFilter();
+                        list.clear();
+                    }
+                }.bind(this));
+
+                if ( URIHash.detect('search') ) {
+                    this.query = URIHash.getFromIndex(2);
                     list.request();
-                    break;
+                    setTimeout(function(){
+                        ga('send', 'event', 'Search', 'RequestFromURL', this.query);
+                    }.bind(this), 500);
+                }
             }
-        }.bind(this));
-
-        search.addEventListener('search', function (e) {
-            if ( e.target.value === '' ) {
-                ga('send', 'event', 'Search', 'Clear', '');
-                list.removeColorFilter();
-                list.clear();
-            }
-        }.bind(this));
-
-        if ( URIHash.detect('search') ) {
-            this.query = URIHash.getFromIndex(2);
-            list.request();
-            setTimeout(function(){
-                ga('send', 'event', 'Search', 'RequestFromURL', this.query);
-            }.bind(this), 500);
-        }
-    }
-});
-</script>
+        });
+    </script>
 
 </dom-module>
 <dom-module is="figme-list">
 
-    <style>
-.container {
-    float: left;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.more {
-    float: left;
-    width: 100%;
-    text-align: center;
-    margin: 10px 0;
-}
-
-.more paper-icon-button {
-    color: #FFF;
-}
-
-.stats {
-    max-width: 500px;
-    margin: 0 auto;
-    border-top: 1px solid #89C6F9;
-    padding: 15px 0 0 0;
-    color: #FFF;
-    text-transform: uppercase;
-    font-size: 15px;
-    margin-bottom: 0px;
-}
-
-.stats span {
-    font-weight: 700;
-}
-
-.stats a {
-    font-weight: 300;
-    color: #FFF;
-    text-decoration: none;
-}
-
-.stats span.filter {
-    float: right;
-}
-
-</style>
-
     <template>
+
+        <style>
+            .container {
+                float: left;
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            .more {
+                float: left;
+                width: 100%;
+                text-align: center;
+                margin: 10px 0;
+            }
+
+            .more paper-icon-button {
+                color: #FFF;
+            }
+
+            .stats {
+                max-width: 500px;
+                margin: 0 auto;
+                border-top: 1px solid #89C6F9;
+                padding: 15px 0 0 0;
+                color: #FFF;
+                text-transform: uppercase;
+                font-size: 15px;
+                margin-bottom: 0px;
+            }
+
+            .stats span {
+                font-weight: 700;
+            }
+
+            .stats a {
+                font-weight: 300;
+                color: #FFF;
+                text-decoration: none;
+            }
+
+            .stats span.filter {
+                float: right;
+            }
+        </style>
 
         <iron-ajax id="search" url="http://api.giphy.com/v1/gifs/search" params="{
                 &quot;api_key&quot;: &quot;PRzg5f1DktmCY&quot;,
@@ -14296,192 +14295,189 @@ p span.links a {
 
     </template>
 
-    <script>Polymer({
-    is: 'figme-list',
-    properties: {
-        items: {
-            type: Object,
-            observer: '_itemsHasChanged'
-        },
-        query: {
-            type: String
-        },
-        ifMore: {
-            type: Boolean,
-            value: false
-        },
-        offset: {
-            type: Number,
-            value: 0
-        },
-        results: {
-            type: Array,
-            value: []
-        },
-        color: {
-            type: String,
-            value: ''
-        }
-    },
-    ready: function () {
-        this._attachClipboard();
-    },
-    request: function(getMore) {
-        if (!getMore) {
-            this.results = [];
-            this.offset = 0;
-        }
-        this.$.search.params.offset = this.offset;
-        this.$.search.params.q = this.query;
-        this.$.search.generateRequest();
-        URIHash.set('search', this.query);
-    },
-    clear: function(event) {
-        if (event) { event.preventDefault(); }
-        this.items = {};
-        this.offset = 0;
-        URIHash.flush();
-        this.removeColorFilter();
-    },
-    more: function() {
-        this.offset += 12;
-        this.request(true);
-    },
-    filterColor: function(value) {
-        return function(item) {
-            if (!value) return true;
-            return item.color && item.color.indexOf(value) > -1;
-        };
-    },
-    removeColorFilter: function(event) {
-        if (event) {
-            event.preventDefault();
-        } else {
-            var colorElement = document.querySelector('figme-colors');
-            if (colorElement) {
-                colorElement.flush();
+    <script>
+        Polymer({
+            is: 'figme-list',
+            properties: {
+                items: {
+                    type: Object,
+                    observer: '_itemsHasChanged'
+                },
+                query: {
+                    type: String
+                },
+                ifMore: {
+                    type: Boolean,
+                    value: false
+                },
+                offset: {
+                    type: Number,
+                    value: 0
+                },
+                results: {
+                    type: Array,
+                    value: []
+                },
+                color: {
+                    type: String,
+                    value: ''
+                }
+            },
+            ready: function () {
+                this._attachClipboard();
+            },
+            request: function(getMore) {
+                if (!getMore) {
+                    this.results = [];
+                    this.offset = 0;
+                }
+                this.$.search.params.offset = this.offset;
+                this.$.search.params.q = this.query;
+                this.$.search.generateRequest();
+                URIHash.set('search', this.query);
+            },
+            clear: function(event) {
+                if (event) { event.preventDefault(); }
+                this.items = {};
+                this.offset = 0;
+                URIHash.flush();
+                this.removeColorFilter();
+            },
+            more: function() {
+                this.offset += 12;
+                this.request(true);
+            },
+            filterColor: function(value) {
+                return function(item) {
+                    if (!value) return true;
+                    return item.color && item.color.indexOf(value) > -1;
+                };
+            },
+            removeColorFilter: function(event) {
+                if (event) {
+                    event.preventDefault();
+                } else {
+                    var colorElement = document.querySelector('figme-colors');
+                    if (colorElement) {
+                        colorElement.flush();
+                    }
+                }
+                this.color = '';
+            },
+            _itemsHasChanged: function(value) {
+                if ( typeof value.data === 'undefined' ) {
+                    this.results = [];
+                    this.ifMore = false;
+                } else {
+                    this.results = this.results.concat(value.data);
+                    this.ifMore = value.pagination.total_count > this.results.length;
+                }
+            },
+            _attachClipboard: function() {
+                new Clipboard('paper-icon-button.clipboard', {
+                    text: function (trigger) {
+                        var item = trigger.parentElement.parentElement.parentElement.item;
+                        ga('send', 'event', 'Copy', (trigger.id === 'code' ? 'Markdown' : 'Content'), item.id);
+                        return trigger.id === 'code' ? item.markdown : item.images.original.url;
+                    }
+                })
+                .on('success', function() {
+                    this.$.copied.show();
+                }.bind(this));
             }
-        }
-        this.color = '';
-    },
-    _itemsHasChanged: function(value) {
-        if ( typeof value.data === 'undefined' ) {
-            this.results = [];
-            this.ifMore = false;
-        } else {
-            this.results = this.results.concat(value.data);
-            this.ifMore = value.pagination.total_count > this.results.length;
-        }
-    },
-    _attachClipboard: function() {
-        new Clipboard('paper-icon-button.clipboard', {
-            text: function (trigger) {
-                var item = trigger.parentElement.parentElement.parentElement.item;
-                ga('send', 'event', 'Copy', (trigger.id === 'code' ? 'Markdown' : 'Content'), item.id);
-                return trigger.id === 'code' ? item.markdown : item.images.original.url;
-            }
-        })
-        .on('success', function() {
-            this.$.copied.show();
-        }.bind(this));
-    }
-});
-</script>
+        });
+    </script>
 
 </dom-module>
 <dom-module is="figme-item">
 
-    <style>
-:host,
-figme-item {
-    float: left;
-    width: 25%;
-    margin-bottom: -5px;
-}
-
-@media (max-width:960px) {
-    :host,
-    figme-item {
-        width: 50%;
-    };
-}
-
-@media (max-width:500px) {
-    :host,
-    figme-item {
-        width: 100%;
-    };
-}
-
-paper-tooltip {
-    font-family: 'Roboto', 'Noto', sans-serif;
-    --paper-tooltip-background: black;
-}
-
-iron-image {
-    width: 100%;
-    height: 250px;
-}
-
-.item {
-    position: relative;
-    cursor: pointer;
-}
-
-.loading {
-    bottom: 10px;
-    position: absolute;
-    z-index: 1000;
-    margin-left: 10%;
-    width: 80%;
-    height: 10px;
-    border-radius: 50px;
-    background: #47A6F7;
-    -webkit-animation: right 0.3s infinite ease-in-out;
-    -moz-animation: right 0.3s infinite ease-in-out;
-    animation: right 0.3s infinite ease-in-out;
-    display: none;
-}
-
-@-webkit-keyframes right {
-  0%   { -webkit-transform: translate(-15px);   }
-  50%  { -webkit-transform: translate(15px);    }
-  100% { -webkit-transform: translate(-15px);   }
-}
-
-@-webkit-keyframes left {
-  0%   { -webkit-transform: translate(15px);    }
-  50%  { -webkit-transform: translate(-15px);   }
-  100% { -webkit-transform: translate(15px);    }
-}
-
-@-moz-keyframes right {
-  0%   { -moz-transform: translate(-15px);   }
-  50%  { -moz-transform: translate(15px);    }
-  100% { -moz-transform: translate(-15px);   }
-}
-
-@-moz-keyframes left {
-  0%   { -moz-transform: translate(15px);    }
-  50%  { -moz-transform: translate(-15px);   }
-  100% { -moz-transform: translate(15px);    }
-}
-
-@keyframes right {
-  0%   { transform: translate(-15px);  }
-  50%  { transform: translate(15px);   }
-  100% { transform: translate(-15px);  }
-}
-
-@keyframes left {
-  0%   { transform: translate(15px);   }
-  50%  { transform: translate(-15px);  }
-  100% { transform: translate(15px);   }
-}
-
-</style>
-
     <template>
+
+        <style>
+            :host {
+                float: left;
+                width: 25%;
+                margin-bottom: -5px;
+            }
+
+            @media (max-width:960px) {
+                :host {
+                    width: 50%;
+                };
+            }
+
+            @media (max-width:500px) {
+                :host {
+                    width: 100%;
+                };
+            }
+
+            paper-tooltip {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                --paper-tooltip-background: black;
+            }
+
+            iron-image {
+                width: 100%;
+                height: 250px;
+            }
+
+            .item {
+                position: relative;
+                cursor: pointer;
+            }
+
+            .loading {
+                bottom: 10px;
+                position: absolute;
+                z-index: 1000;
+                margin-left: 10%;
+                width: 80%;
+                height: 10px;
+                border-radius: 50px;
+                background: #47A6F7;
+                -webkit-animation: right 0.3s infinite ease-in-out;
+                -moz-animation: right 0.3s infinite ease-in-out;
+                animation: right 0.3s infinite ease-in-out;
+                display: none;
+            }
+
+            @-webkit-keyframes right {
+              0%   { -webkit-transform: translate(-15px);   }
+              50%  { -webkit-transform: translate(15px);    }
+              100% { -webkit-transform: translate(-15px);   }
+            }
+
+            @-webkit-keyframes left {
+              0%   { -webkit-transform: translate(15px);    }
+              50%  { -webkit-transform: translate(-15px);   }
+              100% { -webkit-transform: translate(15px);    }
+            }
+
+            @-moz-keyframes right {
+              0%   { -moz-transform: translate(-15px);   }
+              50%  { -moz-transform: translate(15px);    }
+              100% { -moz-transform: translate(-15px);   }
+            }
+
+            @-moz-keyframes left {
+              0%   { -moz-transform: translate(15px);    }
+              50%  { -moz-transform: translate(-15px);   }
+              100% { -moz-transform: translate(15px);    }
+            }
+
+            @keyframes right {
+              0%   { transform: translate(-15px);  }
+              50%  { transform: translate(15px);   }
+              100% { transform: translate(-15px);  }
+            }
+
+            @keyframes left {
+              0%   { transform: translate(15px);   }
+              50%  { transform: translate(-15px);  }
+              100% { transform: translate(15px);   }
+            }
+        </style>
 
         <div class="item">
 
@@ -14495,100 +14491,98 @@ iron-image {
 
     </template>
 
-    <script>Polymer({
-    is: 'figme-item',
-    properties: {
-        item: Object
-    },
-    ready: function() {
-        this.item.markdown = '![Generated with Figme.co]('+this.item.images.original.url+')';
-        this._attachWatchers();
-        this._extractColor();
-    },
-    _attachWatchers: function() {
-        var element = this.querySelector('.item');
-        var view = this.querySelector('figme-item-view');
-        var loading = element.querySelector('.loading');
-        var timer;
+    <script>
+        Polymer({
+            is: 'figme-item',
+            properties: {
+                item: Object
+            },
+            ready: function() {
+                this.item.markdown = '![Generated with Figme.co]('+this.item.images.original.url+')';
+                this._attachWatchers();
+                this._extractColor();
+            },
+            _attachWatchers: function() {
+                var element = this.querySelector('.item');
+                var view = this.querySelector('figme-item-view');
+                var loading = element.querySelector('.loading');
+                var timer;
 
-        element.addEventListener('mouseover', function(event) {
-            if ( view.querySelector('iron-image').loaded ) {
-                view.show();
-                return;
-            }
-            loading.style.display = 'block';
-            timer = setInterval(function(){
-                if ( view.querySelector('iron-image').loaded ) {
+                element.addEventListener('mouseover', function(event) {
+                    if ( view.querySelector('iron-image').loaded ) {
+                        view.show();
+                        return;
+                    }
+                    loading.style.display = 'block';
+                    timer = setInterval(function(){
+                        if ( view.querySelector('iron-image').loaded ) {
+                            loading.style.display = 'none';
+                            view.show();
+                            clearInterval(timer);
+                        }
+                    }, 150);
+                });
+
+                element.addEventListener('mouseout', function(event) {
+                    view.hide();
                     loading.style.display = 'none';
-                    view.show();
                     clearInterval(timer);
+                });
+            },
+            _extractColor: function() {
+                if (!this.item.color) {
+                    var colors = document.querySelector('figme-colors');
+                    var image = document.createElement('img');
+                    image.onload = function(){
+                        var color = new ColorThief();
+                        var value = color.getColor(image);
+                        var hex = this._rgbToHex(value[0], value[1], value[2]);
+                        colors.push(hex);
+                        this.item.color = hex;
+                        image = null;
+                    }.bind(this);
+                    image.crossOrigin = 'Anonymous';
+                    image.src = this.item.images.original_still.url;
                 }
-            }, 150);
+            },
+            _rgbToHex: function(r, g, b) {
+                var componentToHex = function(c) {
+                    var hex = c.toString(16);
+                    return hex.length == 1 ? '0' + hex : hex;
+                };
+                return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+            }
         });
-
-        element.addEventListener('mouseout', function(event) {
-            view.hide();
-            loading.style.display = 'none';
-            clearInterval(timer);
-        });
-    },
-    _extractColor: function() {
-        if (!this.item.color) {
-            var colors = document.querySelector('figme-colors');
-            var image = document.createElement('img');
-            image.onload = function(){
-                var color = new ColorThief();
-                var value = color.getColor(image);
-                var hex = this._rgbToHex(value[0], value[1], value[2]);
-                colors.push(hex);
-                this.item.color = hex;
-                image = null;
-            }.bind(this);
-            image.crossOrigin = 'Anonymous';
-            image.src = this.item.images.original_still.url;
-        }
-    },
-    _rgbToHex: function(r, g, b) {
-        var componentToHex = function(c) {
-            var hex = c.toString(16);
-            return hex.length == 1 ? '0' + hex : hex;
-        };
-        return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    }
-});
-</script>
+    </script>
 
 </dom-module>
 <dom-module is="figme-item-view">
 
-    <style>
-.view {
-    position: absolute;
-    z-index: 1000;
-    top: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.view ._actions {
-    margin-top: -5px;
-    color: #fff;
-}
-
-.view iron-image {
-    width: 100%;
-    height: 250px;
-}
-
-</style>
-
-    <style>
-        paper-tooltip {
-            --paper-tooltip-background: #47A6F7;
-        }
-    </style>
-
     <template>
+
+        <style>
+            .view {
+                position: absolute;
+                z-index: 1000;
+                top: 0;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+            }
+
+            .view ._actions {
+                margin-top: -5px;
+                color: #fff;
+            }
+
+            .view iron-image {
+                width: 100%;
+                height: 250px;
+            }
+
+            paper-tooltip {
+                --paper-tooltip-background: #47A6F7;
+            }
+        </style>
 
         <div class="view" hidden$="{{ !isShown }}">
 
@@ -14608,57 +14602,56 @@ iron-image {
 
     </template>
 
-    <script>Polymer({
-    is: 'figme-item-view',
-    properties: {
-        item: Object,
-        isShown: {
-            type: Boolean,
-            value: false
-        }
-    },
-    show: function() {
-        this.isShown = true;
-        ga('send', 'event', 'Preview', 'show', this.item.id);
-    },
-    hide: function() {
-        this.isShown = false;
-    },
-    download: function() {
-        var link = document.createElement('a');
-        link.download = null;
-        link.href = this.item.images.original.url;
-        link.click();
-        ga('send', 'event', 'Copy', 'Download', this.item.id);
-    },
-    copy: function() {
-        this.querySelector('#content-copy').click();
-    }
-});
-</script>
+    <script>
+        Polymer({
+            is: 'figme-item-view',
+            properties: {
+                item: Object,
+                isShown: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            show: function() {
+                this.isShown = true;
+                ga('send', 'event', 'Preview', 'show', this.item.id);
+            },
+            hide: function() {
+                this.isShown = false;
+            },
+            download: function() {
+                var link = document.createElement('a');
+                link.download = null;
+                link.href = this.item.images.original.url;
+                link.click();
+                ga('send', 'event', 'Copy', 'Download', this.item.id);
+            },
+            copy: function() {
+                this.querySelector('#content-copy').click();
+            }
+        });
+    </script>
 
 </dom-module>
 <dom-module is="figme-colors">
 
-    <style>
-:host,
-figme-colors {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 15px 0 0 0;
-    display: block;
-}
-
-.box {
-    float: left;
-    width: 10%;
-    height: 20px;
-    cursor: pointer;
-}
-
-</style>
-
     <template>
+
+        <style>
+            :host {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 15px 0 0 0;
+                display: block;
+            }
+
+            .box {
+                float: left;
+                width: 10%;
+                height: 20px;
+                cursor: pointer;
+            }
+        </style>
 
         <template is="dom-repeat" items="{{ items }}">
 
@@ -14668,59 +14661,62 @@ figme-colors {
 
     </template>
 
-    <script>Polymer({
-    is: 'figme-colors',
-    properties: {
-        items: {
-            type: Array,
-            value: []
-        }
-    },
-    push: function(value) {
-        if (this.items.indexOf(value) === -1) {
-            this.items.push(value);
-            this.notifyPath('items', this.items.slice());
-        }
-    },
-    flush: function() {
-        this.set('items', []);
-    },
-    filter: function(e) {
-        var list = document.querySelector('figme-list');
-        if (list.color !== e.target.dataItem) {
-            list.set('color', e.target.dataItem);
-        }
-    },
-    _computeColor: function(color) {
-        return 'background-color: ' + color;
-    }
-});
-</script>
+    <script>
+        Polymer({
+            is: 'figme-colors',
+            properties: {
+                items: {
+                    type: Array,
+                    value: []
+                }
+            },
+            push: function(value) {
+                if (this.items.indexOf(value) === -1) {
+                    this.items.push(value);
+                    this.notifyPath('items', this.items.slice());
+                }
+            },
+            flush: function() {
+                this.set('items', []);
+            },
+            filter: function(e) {
+                var list = document.querySelector('figme-list');
+                if (list.color !== e.target.dataItem) {
+                    list.set('color', e.target.dataItem);
+                }
+            },
+            _computeColor: function(color) {
+                return 'background-color: ' + color;
+            }
+        });
+    </script>
 
 </dom-module>
 <dom-module is="figme-shares">
 
-    <style>
-    :host {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1000;
-    }
-
-    a,
-    div {
-        float: left;
-        margin-right: 10px;
-    }
-    div {
-        margin-top: -2px;
-    }
-    </style>
-
     <template>
+
+        <style>
+            :host {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 1000;
+            }
+
+            a,
+            div {
+                float: left;
+                margin-right: 10px;
+            }
+            div {
+                margin-top: -2px;
+            }
+        </style>
+
         <div class="fb-share-button" data-href="http://figme.co/" data-layout="button_count"></div>
         <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://figme.co">Tweet</a>
+
     </template>
 
     <script>
