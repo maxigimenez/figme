@@ -1,26 +1,28 @@
 <dom-module is="figme-shares">
 
-    <style>
-    :host {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1000;
-    }
-
-    a,
-    div {
-        float: left;
-        margin-right: 10px;
-    }
-    div {
-        margin-top: -2px;
-    }
-    </style>
-
     <template>
+
+        <style>
+            :host {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 1000;
+            }
+
+            a,
+            div {
+                float: left;
+                margin-right: 10px;
+            }
+            div {
+                margin-top: -2px;
+            }
+        </style>
+
         <div class="fb-share-button" data-href="http://figme.co/" data-layout="button_count"></div>
         <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://figme.co">Tweet</a>
+
     </template>
 
     <script>

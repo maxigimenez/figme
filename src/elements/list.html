@@ -1,8 +1,50 @@
 <dom-module is="figme-list">
 
-    <link rel="stylesheet" href="../styles/list.css">
-
     <template>
+
+        <style>
+            .container {
+                float: left;
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            .more {
+                float: left;
+                width: 100%;
+                text-align: center;
+                margin: 10px 0;
+            }
+
+            .more paper-icon-button {
+                color: #FFF;
+            }
+
+            .stats {
+                max-width: 500px;
+                margin: 0 auto;
+                border-top: 1px solid #89C6F9;
+                padding: 15px 0 0 0;
+                color: #FFF;
+                text-transform: uppercase;
+                font-size: 15px;
+                margin-bottom: 0px;
+            }
+
+            .stats span {
+                font-weight: 700;
+            }
+
+            .stats a {
+                font-weight: 300;
+                color: #FFF;
+                text-decoration: none;
+            }
+
+            .stats span.filter {
+                float: right;
+            }
+        </style>
 
         <iron-ajax
             id="search"
@@ -57,6 +99,97 @@
 
     </template>
 
-    <script src="../scripts/list.js"></script>
+    <script>
+        Polymer({
+            is: 'figme-list',
+            properties: {
+                items: {
+                    type: Object,
+                    observer: '_itemsHasChanged'
+                },
+                query: {
+                    type: String
+                },
+                ifMore: {
+                    type: Boolean,
+                    value: false
+                },
+                offset: {
+                    type: Number,
+                    value: 0
+                },
+                results: {
+                    type: Array,
+                    value: []
+                },
+                color: {
+                    type: String,
+                    value: ''
+                }
+            },
+            ready: function () {
+                this._attachClipboard();
+            },
+            request: function(getMore) {
+                if (!getMore) {
+                    this.results = [];
+                    this.offset = 0;
+                }
+                this.$.search.params.offset = this.offset;
+                this.$.search.params.q = this.query;
+                this.$.search.generateRequest();
+                URIHash.set('search', this.query);
+            },
+            clear: function(event) {
+                if (event) { event.preventDefault(); }
+                this.items = {};
+                this.offset = 0;
+                URIHash.flush();
+                this.removeColorFilter();
+            },
+            more: function() {
+                this.offset += 12;
+                this.request(true);
+            },
+            filterColor: function(value) {
+                return function(item) {
+                    if (!value) return true;
+                    return item.color && item.color.indexOf(value) > -1;
+                };
+            },
+            removeColorFilter: function(event) {
+                if (event) {
+                    event.preventDefault();
+                } else {
+                    var colorElement = document.querySelector('figme-colors');
+                    if (colorElement) {
+                        colorElement.flush();
+                    }
+                }
+                this.color = '';
+            },
+            _itemsHasChanged: function(value) {
+                if ( typeof value.data === 'undefined' ) {
+                    this.results = [];
+                    this.ifMore = false;
+                } else {
+                    this.results = this.results.concat(value.data);
+                    this.ifMore = value.pagination.total_count > this.results.length;
+                }
+            },
+            _attachClipboard: function() {
+                new Clipboard('paper-icon-button.clipboard', {
+                    text: function (trigger) {
+                        var item = trigger.parentElement.parentElement.parentElement.item;
+                        ga('send', 'event', 'Copy', (trigger.id === 'code' ? 'Markdown' : 'Content'), item.id);
+                        return trigger.id === 'code' ? item.markdown : item.images.original.url;
+                    }
+                })
+                .on('success', function() {
+                    this.$.copied.show();
+                }.bind(this));
+            }
+        });
+    </script>
 
 </dom-module>
