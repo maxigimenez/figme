@@ -121,7 +121,7 @@
                 var loading = element.querySelector('.loading');
                 var timer;
 
-                element.addEventListener('mouseover', function(event) {
+                element.addEventListener('mouseover', function() {
                     if ( view.querySelector('iron-image').loaded ) {
                         view.show();
                         return;
@@ -136,7 +136,7 @@
                     }, 150);
                 });
 
-                element.addEventListener('mouseout', function(event) {
+                element.addEventListener('mouseout', function() {
                     view.hide();
                     loading.style.display = 'none';
                     clearInterval(timer);

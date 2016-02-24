@@ -187,7 +187,14 @@
                 })
                 .on('success', function() {
                     this.$.copied.show();
-                }.bind(this));
+                }.bind(this))
+                .on('error', function(e) {
+                    var view = e.trigger.parentElement.parentElement.parentElement;
+                    var item = view.item;
+                    view.fallbackHidden = false;
+                    view.fallback = (e.trigger.id === 'code' ? item.markdown : item.images.original.url);
+                    view.$.fallback_input.focus();
+                });
             }
         });
     </script>
