@@ -4,37 +4,41 @@
 
 Some cool features:
 
-- Extract dominant color to be used as filter
+~- Extract dominant color to be used as filter~
 - Copy GIF url direct to the clipboard
-- Copy Markdown syntax with GIF direct to the clipboard
-- Direct download
+~- Copy Markdown syntax with GIF direct to the clipboard~
+~- Direct download~
 - Responsive
+- React <3
 
 ## API Key
 
 Please replace the api key from this repository to the key located [here](https://github.com/giphy/GiphyAPI#public-beta-key).
 
+```
+API_KEY=key npm run dev
+API_KEY=key npm run build
+```
+
 ## Written with:
 
-- [Polymer](https://www.polymer-project.org/1.0/)
-- [Color Thief](https://github.com/lokesh/color-thief/)
-- [Clipboard](https://github.com/zenorocha/clipboard.js)
-
-## Nice to have
-
-I'll be working on this features soon, but YOU can do it, fork and collaborate!
-
-- "Like" button to create a whitelist per user
-- Filter in base of most used colors
-- Filter with in base of most searched keys
+- [React](https://reactjs.org/)
+- Yarn
+- Webpack
 
 ## Development
 
-The npm install will trigger bower install:
-
 ```
 npm install;
-grunt dev;
+npm run dev;
+```
+
+## Production
+
+Generate a production build:
+
+```
+npm run build;
 ```
 
 ## Licence
