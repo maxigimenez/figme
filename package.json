@@ -32,6 +32,6 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --progress --colors",
-    "build": "BUILD_DEV=false webpack --config ./webpack.production.config.js"
+    "build": "BUILD_DEV=false NODE_ENV=production webpack --config ./webpack.production.config.js"
   }
 }

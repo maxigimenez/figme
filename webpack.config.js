@@ -57,7 +57,10 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
-      __API__: JSON.stringify(process.env.API_KEY) || false
+      __API__: JSON.stringify(process.env.API_KEY) || false,
+      'process.env':{
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV) || 'DEV'
+      }
     })
   ]
 };
