@@ -32,7 +32,7 @@ export default class Search extends Component {
     return <div className="search-box">
       <input
         id="search"
-        type="search"
+        type="input"
         value={this.state.query}
         placeholder="Search for a gif ..."
         autoComplete="off"
